@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChatMessage } from "@/components/ChatMessage";
 import { ChatInput } from "@/components/ChatInput";
 import { ModelTemplates } from "@/components/ModelTemplates";
+import { FileUpload } from "@/components/FileUpload";
 import { useToast } from "@/components/ui/use-toast";
 
 interface Message {
@@ -16,10 +17,10 @@ const Index = () => {
       isAi: true,
     },
   ]);
+  const [financialData, setFinancialData] = useState<any[]>([]);
   const { toast } = useToast();
 
   const handleSendMessage = (message: string) => {
-    // Add user message
     setMessages((prev) => [...prev, { text: message, isAi: false }]);
 
     // Simulate AI response
@@ -38,6 +39,17 @@ const Index = () => {
     handleSendMessage(`Can you help me create a ${template}?`);
   };
 
+  const handleDataProcessed = (data: any[]) => {
+    setFinancialData(data);
+    console.log("Processed financial data:", data);
+    
+    // Add a message to inform the user about the processed data
+    setMessages(prev => [...prev, {
+      text: `I've processed your financial data with ${data.length} rows. What type of analysis would you like to perform with this data?`,
+      isAi: true
+    }]);
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="bg-primary text-white p-4">
@@ -48,7 +60,10 @@ const Index = () => {
       </header>
 
       <main className="container flex-1 py-6">
-        <ModelTemplates onSelectTemplate={handleTemplateSelect} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <ModelTemplates onSelectTemplate={handleTemplateSelect} />
+          <FileUpload onDataProcessed={handleDataProcessed} />
+        </div>
         
         <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto">
           <div className="h-[600px] overflow-y-auto p-4">
