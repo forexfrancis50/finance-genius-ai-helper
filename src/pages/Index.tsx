@@ -54,6 +54,7 @@ const Index = () => {
       const aiResponse = await generateAIResponse(message, storedApiKey);
       setMessages((prev) => [...prev, { text: aiResponse, isAi: true }]);
     } catch (error) {
+      console.error('Error sending message:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -279,21 +280,6 @@ const Index = () => {
         description: "Failed to generate the model. Please try again.",
       });
     }
-  };
-
-  const handleSendMessage = (message: string) => {
-    setMessages((prev) => [...prev, { text: message, isAi: false }]);
-
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: "I understand you want to work on financial modeling. Could you provide more details about your specific requirements or which type of analysis you'd like to perform?",
-          isAi: true,
-        },
-      ]);
-    }, 1000);
   };
 
   const handleTemplateSelect = (template: string) => {
