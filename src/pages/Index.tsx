@@ -29,10 +29,10 @@ const Index = () => {
   const handleApiKeySubmit = () => {
     if (apiKey.trim()) {
       setIsApiKeySet(true);
-      localStorage.setItem('perplexity_api_key', apiKey);
+      localStorage.setItem('lm_studio_api_key', apiKey);
       toast({
         title: "API Key Saved",
-        description: "Your API key has been saved securely in local storage.",
+        description: "Your LM Studio API key has been saved securely in local storage.",
       });
     }
   };
@@ -41,12 +41,12 @@ const Index = () => {
     try {
       setMessages((prev) => [...prev, { text: message, isAi: false }]);
       
-      const storedApiKey = localStorage.getItem('perplexity_api_key') || apiKey;
+      const storedApiKey = localStorage.getItem('lm_studio_api_key') || apiKey;
       if (!storedApiKey) {
         toast({
           variant: "destructive",
           title: "API Key Required",
-          description: "Please enter your Perplexity API key to use the AI features.",
+          description: "Please enter your LM Studio API key to use the AI features.",
         });
         return;
       }
@@ -58,7 +58,7 @@ const Index = () => {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to generate AI response. Please check your API key and try again.",
+        description: "Failed to generate AI response. Please ensure LM Studio is running and try again.",
       });
     }
   };
@@ -309,27 +309,19 @@ const Index = () => {
       <main className="container flex-1 py-6">
         {!isApiKeySet && (
           <div className="mb-6 p-4 bg-secondary rounded-lg">
-            <h2 className="text-lg font-semibold mb-2">Enter Perplexity API Key</h2>
+            <h2 className="text-lg font-semibold mb-2">Enter LM Studio API Key</h2>
             <div className="flex gap-2">
               <Input
                 type="password"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                placeholder="Enter your Perplexity API key"
+                placeholder="Enter your LM Studio API key"
                 className="flex-1"
               />
               <Button onClick={handleApiKeySubmit}>Save Key</Button>
             </div>
             <p className="text-sm mt-2 text-muted-foreground">
-              Get your API key from{" "}
-              <a
-                href="https://www.perplexity.ai/settings/api"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                Perplexity AI
-              </a>
+              Make sure LM Studio is running on your machine at http://localhost:1234
             </p>
           </div>
         )}
