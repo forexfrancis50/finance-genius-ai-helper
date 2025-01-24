@@ -1,13 +1,13 @@
 export const generateAIResponse = async (message: string, apiKey: string) => {
   try {
-    const response = await fetch('http://localhost:1234/v1/chat/completions', {
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "local-model", // LM Studio handles this automatically
+        model: 'deepseek-chat',
         messages: [
           {
             role: 'system',
