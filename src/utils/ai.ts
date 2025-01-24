@@ -24,7 +24,11 @@ export const generateAIResponse = async (message: string, apiKey: string) => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to generate AI response');
+      const errorData = await response.json();
+      if (response.status === 402) {
+        throw new Error('Your DeepSeek account has insufficient balance. Please add credits to your account.');
+      }
+      throw new Error(errorData.error?.message || 'Failed to generate AI response');
     }
 
     const data = await response.json();

@@ -53,11 +53,11 @@ const Index = () => {
 
       const aiResponse = await generateAIResponse(message, storedApiKey);
       setMessages((prev) => [...prev, { text: aiResponse, isAi: true }]);
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to generate AI response. Please check your API key and try again.",
+        description: error.message || "Failed to generate AI response. Please check your API key and try again.",
       });
     }
   };
@@ -363,3 +363,4 @@ const Index = () => {
 };
 
 export default Index;
+
